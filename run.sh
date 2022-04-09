@@ -1,4 +1,4 @@
 #!/bin/bash
 
-#kotlin gephi-load.main.kts
-kotlin appearance.main.kts
+kotlin gephi-load.main.kts
+#kotlin appearance.main.kts

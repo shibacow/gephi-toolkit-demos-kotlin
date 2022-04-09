@@ -23,13 +23,8 @@ import org.gephi.preview.types.EdgeColor
 import java.awt.Color
 import org.gephi.appearance.api.AppearanceController
 import org.gephi.appearance.plugin.RankingElementColorTransformer
-//import org.gephi.project.api.Workspace;
-//import org.gephi.io.importer.api.Container;
-//import org.gephi.io.generator.plugin.RandomGraph;
-//import org.gephi.io.importer.api.ImportController;
-//import org.gephi.io.processor.plugin.DefaultProcessor;
-//import org.gephi.io.processor.plugin.AppendProcessor;
-//import org.gephi.io.generator.plugin.DynamicGraph;
+import org.gephi.appearance.plugin.RankingNodeSizeTransformer
+import org.gephi.appearance.api.AppearanceModel
 
 val pc = Lookup.getDefault().lookup(ProjectController::class.java)
 pc.newProject()
@@ -64,7 +59,7 @@ layout.initAlgo();
 for(i in 0..4000){
     if(layout.canAlgo()){
         if(i%100==0){
-            println(i)
+            println("Count="+i)
         }
         layout.goAlgo()
     }
@@ -76,47 +71,22 @@ distance.setDirected(true)
 distance.execute(graphModel)
 
 val appearanceController = Lookup.getDefault().lookup(AppearanceController::class.java)
-//val appearanceModel = appearanceController.get
-//val col = appearanceModel.defaultColumns().degree()
-val degreeRanking = appearanceController.getNodeFunction(graphModel.defaultColumns().degree()
-, RankingElementColorTransformer::class.java)
-/* 
-val degreeRanking = appearanceModel.getNodeFunction(
-    graphModel.defaultColumns().degree(), 
-    RankingElementColorTransformer::class.java)
-*/
-
-/*
- 
-        AppearanceController appearanceController = Lookup.getDefault().lookup(AppearanceController.class);
-        AppearanceModel appearanceModel = appearanceController.getModel();
-
-         //Rank color by Degree
-        Function degreeRanking = appearanceModel.getNodeFunction(graphModel.defaultColumns()
-            .degree(), RankingElementColorTransformer.class);
-        RankingElementColorTransformer degreeTransformer = degreeRanking.getTransformer();
-        degreeTransformer.setColors(new Color[]{new Color(0xFEF0D9), new Color(0xB30000)});
-        degreeTransformer.setColorPositions(new float[]{0f, 1f});
-        appearanceController.transform(degreeRanking);
+val appearanceModel = appearanceController.getModel();
+val degreeRanking = appearanceModel.getNodeFunction(graphModel.defaultColumns().degree(), 
+RankingElementColorTransformer::class.java)
+val degreeTransformer: RankingElementColorTransformer = degreeRanking.getTransformer()
+val colors = listOf(Color(0xFEF0D9),Color(0xB30000))
+degreeTransformer.setColors(colors.toTypedArray())
+degreeTransformer.setColorPositions(arrayOf(0f,1f).toFloatArray())
+appearanceController.transform(degreeRanking)
+val centralityColumn = graphModel.getNodeTable().getColumn(GraphDistance.BETWEENNESS)
+val centralityRanking = appearanceModel.getNodeFunction(centralityColumn, RankingNodeSizeTransformer::class.java)
+val centralityTransformer: RankingNodeSizeTransformer = centralityRanking.getTransformer()
+centralityTransformer.setMinSize(3f)
+centralityTransformer.setMaxSize(10f)
+appearanceController.transform(centralityRanking)
 
 
-        Column centralityColumn = graphModel.getNodeTable().getColumn(GraphDistance.BETWEENNESS);
-        Function centralityRanking = appearanceModel.getNodeFunction(centralityColumn, RankingNodeSizeTransformer.class);
-        RankingNodeSizeTransformer centralityTransformer = (RankingNodeSizeTransformer) centralityRanking.getTransformer();
-        centralityTransformer.setMinSize(3);
-        centralityTransformer.setMaxSize(10);
-        appearanceController.transform(centralityRanking);
-
-        //Rank label size - set a multiplier size
-        Function centralityRanking2 = appearanceModel.getNodeFunction(centralityColumn, RankingLabelSizeTransformer.class);
-        RankingLabelSizeTransformer labelSizeTransformer = (RankingLabelSizeTransformer) centralityRanking2.getTransformer();
-        labelSizeTransformer.setMinSize(1);
-        labelSizeTransformer.setMaxSize(3);
-        appearanceController.transform(centralityRanking2);
- */
-
-
- 
 val model = Lookup.getDefault().lookup(PreviewController::class.java).getModel()
 
 model.getProperties().putValue(PreviewProperty.SHOW_NODE_LABELS, true)
