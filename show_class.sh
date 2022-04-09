@@ -1,6 +1,6 @@
 #!/bin/bash
 # Set the JAR name
-jar="gephi-toolkit-0.9.3-20220317.194054-599-all.jar"
+jar="gephi-toolkit-0.9.3-all.jar"
 # Loop through the classes (everything ending in .class)
 for class in $(jar -tf $jar | grep '.class'); do 
     # Replace /'s with .'s
