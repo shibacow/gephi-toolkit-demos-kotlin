@@ -1,4 +1,5 @@
 #!/usr/bin/env kotlin
+
 @file:DependsOn("gephi-toolkit-0.9.3-all.jar")
 
 import org.gephi.project.api.ProjectController
@@ -23,6 +24,7 @@ import org.gephi.preview.types.EdgeColor
 import java.awt.Color
 import org.gephi.appearance.api.AppearanceController
 import org.gephi.appearance.plugin.RankingElementColorTransformer
+import org.gephi.appearance.api.AppearanceModel
 //import org.gephi.project.api.Workspace;
 //import org.gephi.io.importer.api.Container;
 //import org.gephi.io.generator.plugin.RandomGraph;
@@ -40,46 +42,14 @@ val container = imc.importFile(file)
 container.getLoader().setEdgeDefault(EdgeDirectionDefault.DIRECTED)
 imc.process(container,DefaultProcessor(),workspace)
 val graphModel = Lookup.getDefault().lookup(GraphController::class.java).getGraphModel()
-val graph = graphModel.getDirectedGraph()
-println("Nodes: " + graph.getNodeCount())
-println("Edges: " + graph.getEdgeCount())
-val degreeFilter = DegreeRangeFilter()
-degreeFilter.init(graph)
-degreeFilter.setRange(Range(30, Int.MAX_VALUE))
-val filterController = Lookup.getDefault().lookup(FilterController::class.java)
-val query = filterController.createQuery(degreeFilter)
-val view = filterController.filter(query)
-graphModel.setVisibleView(view)
-
-val graphVisible = graphModel.getUndirectedGraphVisible();
-println("Undirected Nodes: " + graphVisible.getNodeCount());
-println("Undirected Edges: " + graphVisible.getEdgeCount());
-
-val layout = YifanHuLayout(null, StepDisplacement(1f));
-layout.setGraphModel(graphModel);
-layout.resetPropertiesValues();
-layout.setOptimalDistance(200f);
-layout.initAlgo();
- 
-for(i in 0..4000){
-    if(layout.canAlgo()){
-        if(i%100==0){
-            println(i)
-        }
-        layout.goAlgo()
-    }
-}
-
-layout.endAlgo()
-val distance = GraphDistance()
-distance.setDirected(true)
-distance.execute(graphModel)
 
 val appearanceController = Lookup.getDefault().lookup(AppearanceController::class.java)
-//val appearanceModel = appearanceController.get
-//val col = appearanceModel.defaultColumns().degree()
-val degreeRanking = appearanceController.getNodeFunction(graphModel.defaultColumns().degree()
-, RankingElementColorTransformer::class.java)
+val appearanceModel = appearanceController.getModel();
+val degreeRanking = appearanceModel.getNodeFunction(graphModel.defaultColumns().degree(), 
+RankingElementColorTransformer::class.java);
+
+//val degreeRanking = appearanceController.getNodeFunction(graphModel.defaultColumns().degree()
+//, RankingElementColorTransformer::class.java)
 /* 
 val degreeRanking = appearanceModel.getNodeFunction(
     graphModel.defaultColumns().degree(), 
@@ -116,14 +86,3 @@ val degreeRanking = appearanceModel.getNodeFunction(
  */
 
 
- 
-val model = Lookup.getDefault().lookup(PreviewController::class.java).getModel()
-
-model.getProperties().putValue(PreviewProperty.SHOW_NODE_LABELS, true)
-model.getProperties().putValue(PreviewProperty.EDGE_COLOR, EdgeColor(Color.GRAY))
-model.getProperties().putValue(PreviewProperty.EDGE_THICKNESS, 0.1f);
-
-model.getProperties().putValue(PreviewProperty.NODE_LABEL_FONT, model.getProperties().getFontValue(PreviewProperty.NODE_LABEL_FONT).deriveFont(8));
-
-val ec = Lookup.getDefault().lookup(ExportController::class.java)
-ec.exportFile(File("headless_simple.pdf"))
