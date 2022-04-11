@@ -10,29 +10,14 @@ https://github.com/gephi/gephi-toolkit-demos/blob/master/src/main/java/org/gephi
 import org.gephi.project.api.ProjectController
 import org.gephi.io.importer.api.ImportController
 import org.gephi.io.exporter.api.ExportController
-import org.gephi.filters.api.FilterController
-import org.gephi.preview.api.PreviewController
-import org.gephi.datalab.api.AttributeColumnsController
-import org.gephi.io.importer.api.EdgeDirectionDefault
 import org.gephi.graph.api.GraphController
 import org.gephi.io.processor.plugin.DefaultProcessor
 import org.openide.util.Lookup
 import java.io.File
-import org.gephi.filters.plugin.graph.DegreeRangeBuilder.DegreeRangeFilter
-import org.gephi.filters.api.Range
-import org.gephi.filters.api.Query
 import org.gephi.layout.plugin.force.yifanHu.YifanHuLayout
 import org.gephi.layout.plugin.forceAtlas.ForceAtlasLayout
 import org.gephi.layout.plugin.force.StepDisplacement
-import org.gephi.statistics.plugin.GraphDistance
-import org.gephi.preview.api.PreviewProperty
-import org.gephi.preview.types.EdgeColor
-import java.awt.Color
 import java.util.concurrent.TimeUnit
-import org.gephi.appearance.api.AppearanceController
-import org.gephi.appearance.plugin.RankingElementColorTransformer
-import org.gephi.appearance.plugin.RankingNodeSizeTransformer
-import org.gephi.appearance.api.AppearanceModel
 import org.gephi.io.importer.api.Container
 import org.gephi.io.generator.plugin.RandomGraph
 import org.gephi.layout.plugin.AutoLayout
@@ -62,8 +47,6 @@ val graph = graphModel.getDirectedGraph()
 println("Nodes: " + graph.getNodeCount())
 println("Edges: " + graph.getEdgeCount())
 
-
-
 //Layout for 1 minute
 val autoLayout = AutoLayout(1, TimeUnit.MINUTES);
 autoLayout.setGraphModel(graphModel);
@@ -71,14 +54,13 @@ autoLayout.setGraphModel(graphModel);
 val firstLayout = YifanHuLayout(null, StepDisplacement(1f));
 
 val secondLayout = ForceAtlasLayout(null);
-val adjustBySizeProperty:AutoLayout.DynamicProperty = AutoLayout.createDynamicProperty("forceAtlas.adjustSizes.name", true, 0.1f);
-//True after 10% of layout time
-val repulsionProperty:AutoLayout.DynamicProperty = AutoLayout.createDynamicProperty("forceAtlas.repulsionStrength.name", 500, 0f);
-//500 for the complete period
+val adjustBySizeProperty:AutoLayout.DynamicProperty = AutoLayout.createDynamicProperty("forceAtlas.adjustSizes.name", true, 0.1f); //True after 10% of layout time
+val repulsionProperty:AutoLayout.DynamicProperty = AutoLayout.createDynamicProperty("forceAtlas.repulsionStrength.name", 500.0, 0f); //500 for the complete period
 
 autoLayout.addLayout(firstLayout, 0.5f);
-//val propaties = listOf(adjustBySizeProperty, repulsionProperty).toTypedArray()
-autoLayout.addLayout(secondLayout, 0.5f)
+val propaties = listOf(adjustBySizeProperty, repulsionProperty).toTypedArray()
+
+autoLayout.addLayout(secondLayout, 0.5f, propaties)
 try{
         autoLayout.execute()
 }catch(e:IllegalArgumentException){
@@ -88,4 +70,4 @@ try{
 //Export
  
 val ec = Lookup.getDefault().lookup(ExportController::class.java)
-ec.exportFile(File("autolayout_combine.pdf"))
+ec.exportFile(File("autolayout.pdf"))
