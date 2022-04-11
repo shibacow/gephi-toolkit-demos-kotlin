@@ -76,9 +76,9 @@ val adjustBySizeProperty:AutoLayout.DynamicProperty = AutoLayout.createDynamicPr
 val repulsionProperty:AutoLayout.DynamicProperty = AutoLayout.createDynamicProperty("forceAtlas.repulsionStrength.name", 500, 0f);
 //500 for the complete period
 
-autoLayout.addLayout(firstLayout, 1.0f);
+autoLayout.addLayout(firstLayout, 0.5f);
 //val propaties = listOf(adjustBySizeProperty, repulsionProperty).toTypedArray()
-//autoLayout.addLayout(secondLayout, 1.0f)
+autoLayout.addLayout(secondLayout, 0.5f)
 try{
         autoLayout.execute()
 }catch(e:IllegalArgumentException){
@@ -88,4 +88,4 @@ try{
 //Export
  
 val ec = Lookup.getDefault().lookup(ExportController::class.java)
-ec.exportFile(File("autolayout_YifanHu.pdf"))
+ec.exportFile(File("autolayout_combine.pdf"))
