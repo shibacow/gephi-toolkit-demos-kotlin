@@ -1,5 +1,6 @@
 #!/usr/bin/env kotlin
-@file:DependsOn("gephi-toolkit-0.9.3-all.jar")
+//@file:DependsOn("gephi-toolkit-0.9.3-all.jar")
+@file:DependsOn("gephi-toolkit-0.10.0-all.jar")
 
 /*
 this code snippet port  java to kotolin script.
