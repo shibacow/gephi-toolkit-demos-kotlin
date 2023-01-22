@@ -12,6 +12,7 @@ import java.io.IOException;
 import org.gephi.io.importer.api.EdgeDirectionDefault;
 import org.gephi.appearance.api.AppearanceController;
 import org.gephi.appearance.api.AppearanceModel;
+import org.gephi.appearance.api.Partition;
 import org.gephi.filters.api.FilterController;
 import org.gephi.filters.api.Query;
 import org.gephi.filters.api.Range;
@@ -68,5 +69,25 @@ val view = filterController.filter(query);
 graphModel.setVisibleView(view);    //Set the filter result as the visible view
 
 //Count nodes and edges on filtered graph
-val graph = graphModel.getDirectedGraphVisible();
-println("Nodes: " + graph.getNodeCount() + " Edges: " + graph.getEdgeCount());
+val graph_visible = graphModel.getDirectedGraphVisible();
+//val graph_visible = graphModel.getDirectedGraph()
+
+println("Nodes: " + graph_visible.getNodeCount() + " Edges: " + graph_visible.getEdgeCount());
+
+
+//Filter, keep partition 'Blogarama'. Build partition with 'source' column in the data
+
+
+//NodePartitionFilter partitionFilter = new NodePartitionFilter(appearanceModel,
+// appearanceModel.getNodePartition(graphModel.getNodeTable().getColumn("source")));
+//val partion01: Partition = appearanceModel.getNodePartition(graphModel,graphModel.getNodeTable().getColumn("source"));
+//println(partion01);
+ 
+//val partitionFilter:NodePartitionFilter = NodePartitionFilter(appearanceModel,appearanceModel.getNodePartition(graphModel,graphModel.getNodeTable().getColumn("source")));
+/* 
+partitionFilter.unselectAll();
+partitionFilter.addPart("Blogarama");
+val query2 = filterController.createQuery(partitionFilter);
+val view2 = filterController.filter(query2);
+graphModel.setVisibleView(view2);    //Set the filter result as the visible view
+*/
