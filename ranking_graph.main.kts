@@ -47,8 +47,10 @@ val appearanceModel = appearanceController.getModel();
 
 //Import file
 val imc = Lookup.getDefault().lookup(ImportController::class.java)
+var filename="polblogs.gml"
+filename="example.gml"
 try{
-    val file = File("polblogs.gml")
+    val file = File(filename)
     val container = imc.importFile(file)
     container.getLoader().setEdgeDefault(EdgeDirectionDefault.DIRECTED)
     imc.process(container,DefaultProcessor(),workspace)
@@ -70,3 +72,40 @@ val colors = listOf(Color(0xFEF0D9),Color(0xB30000))
 degreeTransformer.setColors(colors.toTypedArray());
 degreeTransformer.setColorPositions(arrayOf(0f,1f).toFloatArray());
 appearanceController.transform(degreeRanking);
+
+
+//Get Centrality
+val distance = GraphDistance();
+distance.setDirected(true);
+distance.execute(graphModel);
+
+
+//Rank size by centrality
+val centralityColumn = graphModel.getNodeTable().getColumn(GraphDistance.BETWEENNESS);
+val centralityRanking = appearanceModel.getNodeFunction(centralityColumn, RankingNodeSizeTransformer::class.java);
+val centralityTransformer: RankingNodeSizeTransformer = centralityRanking.getTransformer();
+centralityTransformer.setMinSize(3f);
+centralityTransformer.setMaxSize(10f);
+appearanceController.transform(centralityRanking);
+
+//Rank label size - set a multiplier size
+val centralityRanking2 = appearanceModel.getNodeFunction(centralityColumn, RankingLabelSizeTransformer::class.java);
+val labelSizeTransformer: RankingLabelSizeTransformer = centralityRanking2.getTransformer();
+labelSizeTransformer.setMinSize(1f);
+labelSizeTransformer.setMaxSize(3f);
+appearanceController.transform(centralityRanking2);
+
+
+//Set 'show labels' option in Preview - and disable node size influence on text size
+val previewModel = Lookup.getDefault().lookup(PreviewController::class.java).getModel();
+previewModel.getProperties().putValue(PreviewProperty.SHOW_NODE_LABELS, true);
+previewModel.getProperties().putValue(PreviewProperty.NODE_LABEL_PROPORTIONAL_SIZE, false);
+
+val ec = Lookup.getDefault().lookup(ExportController::class.java)
+println("ec="+ec)
+ //Export
+try{
+	ec.exportFile(File("pdf/ranking_graph.svg"));
+} catch (ex: IOException) {
+	ex.printStackTrace()
+}
