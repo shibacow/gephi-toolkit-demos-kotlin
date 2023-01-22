@@ -70,8 +70,30 @@ partition.setColors(graph, palette.getColors());
 appearanceController.transform(clusterPartitionFunction)
 val ec = Lookup.getDefault().lookup(ExportController::class.java)
 println("ec="+ec)
+ //Export
+
 try{
-	ec.exportFile(File("pdf/partition1.pdf"));
+	ec.exportFile(File("partition1.pdf"));
 } catch (ex: IOException) {
 	ex.printStackTrace()
+}
+
+//Run modularity algorithm - community detection
+val modularity = Modularity();
+modularity.execute(graphModel);
+
+//Partition with 'modularity_class', just created by Modularity algorithm
+val modColumn = graphModel.getNodeTable().getColumn(Modularity.MODULARITY_CLASS);
+val func2 = appearanceModel.getNodeFunction(modColumn, PartitionElementColorTransformer::class.java)
+val partition2 = (func2 as PartitionFunction).partition
+println("partiton2 size="+partition2.size(graph))
+val palette2 = PaletteManager.getInstance().randomPalette(partition2.size(graph));
+partition2.setColors(graph, palette2.getColors())
+appearanceController.transform(func2)
+
+//Export
+try {
+    ec.exportFile(File("partition2.svg"));
+} catch (ex: IOException) {
+    ex.printStackTrace();
 }
