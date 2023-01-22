@@ -1,7 +1,5 @@
 #!/usr/bin/env kotlin
 @file:DependsOn("gephi-toolkit-0.10.0-all.jar")
-
-
 /*
 this code snippet port  java to kotolin script.
 original java code is this url.
@@ -58,3 +56,22 @@ val graph = graphModel.getDirectedGraph()
 println("Nodes: " + graph.getNodeCount())
 println("Edges: " + graph.getEdgeCount())
 
+//Partition with 'source' column, which is in the data
+val column = graphModel.getNodeTable().getColumn("source");
+
+val clusterPartitionFunction = appearanceModel.getNodeFunction(
+	column,
+	PartitionElementColorTransformer::class.java
+)
+val partition = (clusterPartitionFunction as PartitionFunction).partition
+println("partition.size="+partition.size(graph))
+val palette = PaletteManager.getInstance().generatePalette(partition.size(graph))
+partition.setColors(graph, palette.getColors());
+appearanceController.transform(clusterPartitionFunction)
+val ec = Lookup.getDefault().lookup(ExportController::class.java)
+println("ec="+ec)
+try{
+	ec.exportFile(File("pdf/partition1.pdf"));
+} catch (ex: IOException) {
+	ex.printStackTrace()
+}
