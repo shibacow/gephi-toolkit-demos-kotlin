@@ -60,3 +60,13 @@ try{
 val graph = graphModel.getDirectedGraph()
 println("Nodes: " + graph.getNodeCount())
 println("Edges: " + graph.getEdgeCount())
+
+//Rank color by Degree
+val degreeRanking = appearanceModel.getNodeFunction(graphModel.defaultColumns()
+            .degree(), RankingElementColorTransformer::class.java);
+
+val degreeTransformer: RankingElementColorTransformer = degreeRanking.getTransformer();
+val colors = listOf(Color(0xFEF0D9),Color(0xB30000))
+degreeTransformer.setColors(colors.toTypedArray());
+degreeTransformer.setColorPositions(arrayOf(0f,1f).toFloatArray());
+appearanceController.transform(degreeRanking);
