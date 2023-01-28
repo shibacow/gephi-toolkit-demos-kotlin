@@ -1,7 +1,21 @@
 # kotlin_for_gephi
 
 kotlin で gephi libraryを使う。そのためのサンプルスクリプト。
-kotlinでも動くことを確認するため、[Gephi Toolkit Demos](https://github.com/gephi/gephi-toolkit-demos) の `HeadlessSimple.java` を移植した。
+kotlinでも動くことを確認するため、[Gephi Toolkit Demos](https://github.com/gephi/gephi-toolkit-demos) の 
+- `HeadlessSimple.java` 
+- `WithAutoLayout.java`
+- `ParallelWorkspace.java`
+- `PartitionGraph.java`
+- `RankingGraph.java`
+- `Filtering.java`
+- `ImportExport.java`
+- `SQLiteImportExport.java`
+- `ManualGraph.java`
+- `ManipulateAttributes.java`
+- `DynamicMetric.java`
+- `ImportDynamic.java`
+
+を移植した。
 
 
 # ハマったところ
