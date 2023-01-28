@@ -44,7 +44,6 @@ val appearanceModel = appearanceController.getModel();
 //Import file
 val imc = Lookup.getDefault().lookup(ImportController::class.java)
 var filename="resource/polblogs.gml"
-filename="resource/example.gml"
 try{
     val file = File(filename)
     val container = imc.importFile(file)
@@ -71,35 +70,33 @@ graphModel.setVisibleView(view);    //Set the filter result as the visible view
 //Count nodes and edges on filtered graph
 val graph_visible = graphModel.getDirectedGraphVisible();
 
-println("Nodes: " + graph_visible.getNodeCount() + " Edges: " + graph_visible.getEdgeCount());
+println("visible Nodes: ${graph_visible.getNodeCount()} Edges: ${graph_visible.getEdgeCount()}");
 
-//This part of the program could not be kotolinized due to an error.
+//Filter, keep partition 'Blogarama'. Build partition with 'source' column in the data
+val app=appearanceModel.getNodePartition(graphModel.getNodeTable().getColumn("source"));
 
-/*
-        //Filter, keep partition 'Blogarama'. Build partition with 'source' column in the data
-        NodePartitionFilter partitionFilter = new NodePartitionFilter(appearanceModel.getNodePartition(graphModel.getNodeTable().getColumn("source")));
-        partitionFilter.unselectAll();
-        partitionFilter.addPart("Blogarama");
-        Query query2 = filterController.createQuery(partitionFilter);
-        GraphView view2 = filterController.filter(query2);
-        graphModel.setVisibleView(view2);    //Set the filter result as the visible view
+val partitionFilter = NodePartitionFilter(appearanceModel,app);
+partitionFilter.unselectAll();
+partitionFilter.addPart("Blogarama");
+val query2 = filterController.createQuery(partitionFilter);
+val view2 = filterController.filter(query2);
+graphModel.setVisibleView(view2);    //Set the filter result as the visible view
 
-        //Count nodes and edges on filtered graph
-        graph = graphModel.getDirectedGraphVisible();
-        System.out.println("Nodes: " + graph.getNodeCount() + " Edges: " + graph.getEdgeCount());
- */
+//Count nodes and edges on filtered graph
+val graph2 = graphModel.getDirectedGraphVisible();
+println("node filtered Nodes: ${graph2.getNodeCount()} Edges: ${graph2.getEdgeCount()}");
 
 //Combine two filters with AND - Set query and query2 as sub-query of AND
 val intersectionOperator = IntersectionOperator();
 val query3 = filterController.createQuery(intersectionOperator);
 filterController.setSubQuery(query3, query);
-//filterController.setSubQuery(query3, query2);
+filterController.setSubQuery(query3, query2);
 val view3 = filterController.filter(query3);
 graphModel.setVisibleView(view3);    //Set the filter result as the visible view
 
 //Count nodes and edges on filtered graph
 val graph3 = graphModel.getDirectedGraphVisible();
-println("Nodes: " + graph3.getNodeCount() + " Edges: " + graph3.getEdgeCount());
+println("sub query Nodes: ${graph3.getNodeCount()} Edges: ${graph3.getEdgeCount()}");
 
 //Ego filter
 val egoFilter = EgoFilter();
@@ -111,4 +108,4 @@ graphModel.setVisibleView(viewEgo);    //Set the filter result as the visible vi
 
 //Count nodes and edges on filtered graph
 val graph_ego = graphModel.getDirectedGraphVisible();
-System.out.println("Nodes: " + graph_ego.getNodeCount() + " Edges: " + graph_ego.getEdgeCount());
+println("ego filter Nodes: ${graph_ego.getNodeCount()} Edges: ${graph_ego.getEdgeCount()}");
