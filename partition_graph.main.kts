@@ -93,7 +93,7 @@ appearanceController.transform(func2)
 
 //Export
 try {
-    ec.exportFile(File("partition2.svg"));
+    ec.exportFile(File("partition2.pdf"));
 } catch (ex: IOException) {
     ex.printStackTrace();
 }
