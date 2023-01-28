@@ -38,3 +38,29 @@ randomGraph.generate(container.getLoader());
 //Append container to graph structure
 val importController = Lookup.getDefault().lookup(ImportController::class.java);
 importController.process(container, DefaultProcessor(), workspace);
+
+//Add a fake 'Date' column to nodes
+val graphModel = Lookup.getDefault().lookup(GraphController::class.java).getGraphModel(workspace);
+
+//Add a random date to all nodes - between 1990 and 2010
+val graph = graphModel.getGraph();
+val random = Random();
+for (n in graph.getNodes()) {
+    val randomDataValue:Double = (random.nextInt(21)  + 1990).toDouble();
+    n.addInterval(Interval(randomDataValue, Double.POSITIVE_INFINITY));
+}
+
+//Execute metric
+val statisticsController = Lookup.getDefault().lookup(StatisticsController::class.java);
+val degree = DynamicDegree();
+degree.setWindow(1.0);
+degree.setTick(1.0);
+degree.setBounds(graphModel.getTimeBounds());
+statisticsController.execute(degree);
+
+//Get averages
+println("Average degree:");
+val averages:TimestampDoubleMap = graph.getAttribute(DynamicDegree.DYNAMIC_AVGDEGREE) as TimestampDoubleMap;
+for ( t in averages.getTimestamps()) {
+    println("${t} -> ${averages.getDouble(t)}");
+}
