@@ -40,7 +40,7 @@ val workspace = pc.getCurrentWorkspace();
 
 //Import file
 val imc = Lookup.getDefault().lookup(ImportController::class.java)
-val file = File("polblogs.gml")
+val file = File("resource/polblogs.gml")
 val container = imc.importFile(file)
 
 //Append imported data to GraphAPI

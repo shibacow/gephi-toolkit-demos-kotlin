@@ -38,8 +38,8 @@ val importController = Lookup.getDefault().lookup(ImportController::class.java);
 
 //Import file
 val imc = Lookup.getDefault().lookup(ImportController::class.java)
-var filename="polblogs.gml"
-//filename="example.gml"
+var filename="resource/polblogs.gml"
+//filename="resource/example.gml"
 try{
     val file = File(filename)
     val container = imc.importFile(file)

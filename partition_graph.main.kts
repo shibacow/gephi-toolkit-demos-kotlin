@@ -46,7 +46,7 @@ val appearanceModel = appearanceController.getModel();
 
 
 val imc = Lookup.getDefault().lookup(ImportController::class.java)
-val file = File("polblogs.gml")
+val file = File("resource/polblogs.gml")
 val container = imc.importFile(file)
 container.getLoader().setEdgeDefault(EdgeDirectionDefault.DIRECTED)
 imc.process(container,DefaultProcessor(),workspace)

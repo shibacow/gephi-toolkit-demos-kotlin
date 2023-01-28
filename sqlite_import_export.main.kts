@@ -48,7 +48,7 @@ The sample source code retrieves a sqlite file(lesmiserables.sqlite3) from a jar
 
 val db = EdgeListDatabaseImpl();
 val current_dir = System.getProperty("user.dir")
-val hostname = current_dir + "/lesmiserables.sqlite3/"
+val hostname = current_dir + "/resource/lesmiserables.sqlite3/"
 db.setHost(hostname);
 db.setSQLDriver(SQLiteDriver());
 db.setNodeQuery("SELECT nodes.id AS id, nodes.label AS label FROM nodes");
