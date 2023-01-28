@@ -7,7 +7,6 @@ original java code is this url.
 https://github.com/gephi/gephi-toolkit-demos/blob/master/src/main/java/org/gephi/toolkit/demos/ImportDynamic.java
 */
 
-
 import java.io.File;
 import org.gephi.filters.api.FilterController;
 import org.gephi.filters.api.Query;
