@@ -1,5 +1,7 @@
 # kotlin_for_gephi
 
+[![kotlin_gephi_test](https://github.com/shibacow/kotolin_for_gephi/actions/workflows/kotolin_gephi_test.yaml/badge.svg)](https://github.com/shibacow/kotolin_for_gephi/actions/workflows/kotolin_gephi_test.yaml)
+
 kotlin で gephi libraryを使う。そのためのサンプルスクリプト。
 kotlinでも動くことを確認するため、[Gephi Toolkit Demos](https://github.com/gephi/gephi-toolkit-demos) の 
 - `HeadlessSimple.java` 
