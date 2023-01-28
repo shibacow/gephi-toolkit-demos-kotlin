@@ -88,10 +88,4 @@ val view = filterController.filter(priceQuery);
 val filteredGraph = graphModel.getGraph(view);
 
 //Node 3 shoudln't be in this graph
-for(i in 0..20){
-    val node = graph.getNode("${i}")
-    println("i=${i} node=${node}")
-    if(node!=null){
-        println("Node ${i} in the filtered graph: ${filteredGraph.contains(node)}");
-    }
-}
+println("Node 3 in the filtered graph: ${filteredGraph.contains(graph.getNode("3"))}");
