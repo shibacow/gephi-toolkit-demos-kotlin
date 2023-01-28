@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #export JDK_JAVA_OPTIONS="-Xms4g -Xmx4g"
-export JDK_JAVA_OPTIONS="-Xms4g -Xmx4g --add-opens=java.base/java.net=ALL-UNNAMED"
+export JDK_JAVA_OPTIONS="-Xms2g -Xmx2g --add-opens=java.base/java.net=ALL-UNNAMED"
 #kotlin headless_sample.main.kts
 #kotlin appearance.main.kts
 #kotlin auto_layout.main.kts
@@ -11,4 +11,5 @@ export JDK_JAVA_OPTIONS="-Xms4g -Xmx4g --add-opens=java.base/java.net=ALL-UNNAME
 #kotlin import_export.main.kts
 #kotlin sqlite_import_export.main.kts
 #kotlin manual_graph.main.kts
-kotlin manipulate_attributes.main.kts
+#kotlin manipulate_attributes.main.kts
+kotlin dynamic_metric.main.kts
