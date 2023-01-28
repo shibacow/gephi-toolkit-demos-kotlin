@@ -73,7 +73,6 @@ degreeTransformer.setColors(colors.toTypedArray());
 degreeTransformer.setColorPositions(arrayOf(0f,1f).toFloatArray());
 appearanceController.transform(degreeRanking);
 
-
 //Get Centrality
 val distance = GraphDistance();
 distance.setDirected(true);
