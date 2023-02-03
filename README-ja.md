@@ -1,5 +1,7 @@
 # Kotolinを使ったGephi Toolkitデモ
 
+[![ci_test](https://github.com/shibacow/gephi-toolkit-demos-kotlin/actions/workflows/kotolin_gephi_test.yaml/badge.svg)](https://github.com/shibacow/gephi-toolkit-demos-kotlin/actions/workflows/kotolin_gephi_test.yaml)
+
 Gephi Toolkitプロジェクトは、必要なモジュール（グラフ、レイアウト、フィルタ、IOなど）を標準的なJavaライブラリにパッケージしており、どのJavaプロジェクトでも物事を成し遂げるために使用することができます。
 
 Javaを使用したGephi-Toolkitのデモは[こちらのサイト](https://github.com/gephi/gephi-toolkit-demos)にあります。

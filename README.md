@@ -1,5 +1,7 @@
 # Gephi Toolkit Demos By Using Kotolin
 
+[![ci_test](https://github.com/shibacow/gephi-toolkit-demos-kotlin/actions/workflows/kotolin_gephi_test.yaml/badge.svg)](https://github.com/shibacow/gephi-toolkit-demos-kotlin/actions/workflows/kotolin_gephi_test.yaml)
+
 The Gephi Toolkit project package essential modules (Graph, Layout, Filters, IO...) in a standard Java library, which any Java project can use for getting things done.
 
 Java tutorial site using Gephi-toolkit is [there](https://github.com/gephi/gephi-toolkit-demos).
