@@ -3,7 +3,7 @@ set -ue
 
 echo -e "start \t`date`"
 #export JDK_JAVA_OPTIONS="-Xms4g -Xmx4g"
-export MEM_SIZE=6
+export MEM_SIZE=1
 export JDK_JAVA_OPTIONS="-Xms${MEM_SIZE}g -Xmx${MEM_SIZE}g --add-opens=java.base/java.net=ALL-UNNAMED"
 echo "headless_sample.main.kts" && kotlin headless_sample.main.kts
 echo "auto_layout.main.kts" && kotlin auto_layout.main.kts

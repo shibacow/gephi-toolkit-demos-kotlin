@@ -27,6 +27,8 @@ The java file in the above demo was converted to the following kts file.
 
 # Use this demos
 
+Download `gephi-toolkit-0.10.1-all.jar` from [https://github.com/gephi/gephi-toolkit/releases](https://github.com/gephi/gephi-toolkit/releases) and place it in the project root directory.
+
 setup kotlin.
 
 run `kotlin headless_sample.main.kts`
