@@ -39,6 +39,8 @@ val workspace = pc.getCurrentWorkspace();
 val importController = Lookup.getDefault().lookup(ImportController::class.java);
 
 //Import file
+// [differs from Java original] Java loads lesmiserables.gml from classpath via getClass().getResource().
+// Here we load polblogs.gml from a local path instead.
 val imc = Lookup.getDefault().lookup(ImportController::class.java)
 var filename="resource/polblogs.gml"
 //filename="resource/example.gml"
@@ -64,6 +66,8 @@ val exporter: GraphExporter = ec.getExporter("gexf") as GraphExporter;     //Get
 exporter.setExportVisible(true);  //Only exports the visible (filtered) graph
 exporter.setWorkspace(workspace);
 try {
+   // [differs from Java original] Java exports to "io_gexf.gexf" (same name as the full export above),
+   // overwriting it. Here we use a distinct name to keep both files.
    ec.exportFile(File("io_gexf_visible.gexf"), exporter);
 } catch (ex: IOException) {
    ex.printStackTrace();
@@ -77,9 +81,11 @@ ec.exportWriter(stringWriter,  exporterGraphML as CharacterExporter);
 //println(stringWriter.toString());   //Uncomment this line
 
 
-// Disable curved edges: gephi-toolkit 0.10.1 uses PDFBox 3.x which rejects NaN coordinates.
-// polblogs.gml has reciprocal edge pairs rendered as curved, and the arc arrow calculation
-// produces NaN for certain edge configurations in this version.
+// [differs from Java original] Java has no preview configuration here.
+// gephi-toolkit 0.10.1 upgraded PDFBox to 3.x, which throws IllegalArgumentException on NaN
+// coordinates. polblogs.gml contains many reciprocal edge pairs (A→B and B→A); Gephi renders
+// those as curved edges, and ArrowRenderer's arc-arrow calculation produces NaN for certain
+// edge configurations. Setting EDGE_CURVED=false avoids the curved-edge code path entirely.
 val previewController = Lookup.getDefault().lookup(PreviewController::class.java)
 previewController.getModel(workspace).getProperties().putValue(PreviewProperty.EDGE_CURVED, false)
 
@@ -91,7 +97,9 @@ val baos = ByteArrayOutputStream();
 ec.exportStream(baos, pdfExporter);
 val pdf = baos.toByteArray();
 try{
- File("import_export_demo_byte_a0.pdf").writeBytes(pdf)
+   // [differs from Java original] Java only holds the PDF as a byte array and does not write it to disk.
+   // Here we persist it to a file so the output can be inspected.
+   File("import_export_demo_byte_a0.pdf").writeBytes(pdf)
 } catch (ex: IOException) {
    ex.printStackTrace();
 }
