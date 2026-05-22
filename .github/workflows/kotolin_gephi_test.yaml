@@ -8,6 +8,6 @@ jobs:
     steps:
       - uses: actions/checkout@main
       - uses: fwilhe2/setup-kotlin@main
-      - run: wget "https://github.com/gephi/gephi-toolkit/releases/download/v0.10.0/gephi-toolkit-0.10.0-all.jar"
+      - run: wget "https://github.com/gephi/gephi-toolkit/releases/download/v0.10.1/gephi-toolkit-0.10.1-all.jar"
       - run:  chmod +x ./run.sh
       - run: ./run.sh
