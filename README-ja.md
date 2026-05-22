@@ -29,6 +29,13 @@ Javaを使用したGephi-Toolkitのデモは[こちらのサイト](https://gith
 
 `gephi-toolkit-0.10.1-all.jar` を [https://github.com/gephi/gephi-toolkit/releases](https://github.com/gephi/gephi-toolkit/releases) からダウンロードし、プロジェクトのルートディレクトリに配置する。
 
+## 動作確認環境
+
+| ツール | バージョン |
+|--------|---------|
+| Java   | OpenJDK 21.0.10 |
+| Kotlin | 2.3.21 |
+
 kotlinのインストール
 
 次のコマンドを実行 `kotlin headless_sample.main.kts`
