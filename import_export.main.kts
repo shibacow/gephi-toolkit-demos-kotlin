@@ -22,6 +22,8 @@ import org.gephi.io.importer.api.Container;
 import org.gephi.io.importer.api.EdgeDirectionDefault;
 import org.gephi.io.importer.api.ImportController;
 import org.gephi.io.processor.plugin.DefaultProcessor;
+import org.gephi.preview.api.PreviewController;
+import org.gephi.preview.api.PreviewProperty;
 import org.gephi.project.api.ProjectController;
 import org.gephi.project.api.Workspace;
 import org.openide.util.Lookup;
@@ -74,6 +76,12 @@ val stringWriter = StringWriter();
 ec.exportWriter(stringWriter,  exporterGraphML as CharacterExporter);
 //println(stringWriter.toString());   //Uncomment this line
 
+
+// Disable curved edges: gephi-toolkit 0.10.1 uses PDFBox 3.x which rejects NaN coordinates.
+// polblogs.gml has reciprocal edge pairs rendered as curved, and the arc arrow calculation
+// produces NaN for certain edge configurations in this version.
+val previewController = Lookup.getDefault().lookup(PreviewController::class.java)
+previewController.getModel(workspace).getProperties().putValue(PreviewProperty.EDGE_CURVED, false)
 
 //PDF Exporter config and export to Byte array
 val pdfExporter = ec.getExporter("pdf") as PDFExporter;
